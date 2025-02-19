@@ -1,26 +1,32 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, session, redirect, url_for
 from flask_pymongo import PyMongo
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager, create_access_token
+from flask_session import Session
 from dotenv import load_dotenv
 import os
 
-# Load environment variables
 load_dotenv()
 
 app = Flask(__name__)
 
-# MongoDB configuration
 app.config['MONGO_URI'] = os.getenv('MONGO_URI')
 mongo = PyMongo(app)
 
-# Initialize Bcrypt and JWT
 bcrypt = Bcrypt(app)
 app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')
 jwt = JWTManager(app)
 
+app.config['SESSION_TYPE'] = 'filesystem'
+app.config['SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')
+Session(app)
+
 @app.route('/')
-def login_page():
+def home():
+    """Landing page: Show full name if logged in, else show login page with movies."""
+    if 'full_name' in session:
+        movies = list(mongo.db.movie_details.find({}, {'_id': 0, 'movie_name': 1, 'thumbnail': 1}))
+        return render_template('home.html', full_name=session['full_name'], movies=movies)
     return render_template('index.html')
 
 @app.route('/signup')
@@ -44,14 +50,11 @@ def register():
     if password != confirm_password:
         return jsonify({'error': 'Passwords do not match'}), 400
 
-    # Check if username or email already exists
     if mongo.db.users.find_one({'$or': [{'username': username}, {'email': email}]}):
         return jsonify({'error': 'Username or email already exists'}), 400
 
-    # Hash password
     hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
 
-    # Insert user into MongoDB
     user = {
         'full_name': full_name,
         'username': username,
@@ -61,7 +64,7 @@ def register():
     }
     mongo.db.users.insert_one(user)
 
-    return jsonify({'message': 'User registered successfully'}), 201
+    return render_template('index.html'),201
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -79,10 +82,18 @@ def login():
         return jsonify({'error': 'Invalid username or password'}), 401
 
     access_token = create_access_token(identity=username)
-    
-    return jsonify({'message': 'Login successful', 'token': access_token}), 200
 
-# Check if MongoDB connection works
+    session['username'] = username
+    session['full_name'] = user['full_name']
+
+    return redirect(url_for('home'))
+
+@app.route('/logout')
+def logout():
+    session.pop('username', None)
+    session.pop('full_name', None)
+    return redirect(url_for('home'))  
+
 try:
     mongo.db.users.find_one()
     print("✅ MongoDB Connected Successfully!")
