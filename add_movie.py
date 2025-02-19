@@ -13,11 +13,11 @@ collection = db["movie_details"]
 
 # Sample movie data
 movie_data = {
-    "movie_name": "Guntur Kaaram",
-    "thumbnail": "https://assets-in.bmscdn.com/iedb/movies/images/mobile/thumbnail/xlarge/guntur-kaaram-et00310760-1686726453.jpg",
-    "trailer": "https://www.youtube.com/watch?v=DYLG65xz55U",
+    "movie_name": "HIT: The Second Case (2022)",
+    "thumbnail": "https://assets-in.bmscdn.com/discovery-catalog/events/tr:w-250,h-390/et00327635-effhmzfywb-portrait.jpg",
+    "trailer": "https://www.youtube.com/watch?v=X3Nt-fh56gI",
     "language": "Telugu",
-    "cast": ["Mahesh Babu","Sreeleela","Meenakshi Chaudhary","Ramya Krishnan","Jayaram","Prakash Raj","Jagapathi Babu","Murli Sharma","Vennela Kishore"]
+    "cast": ["Adivi Sesh", "Meenakshi Chaudhary"]
 }
 
 # Insert the movie data

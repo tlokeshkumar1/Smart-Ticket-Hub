@@ -27,15 +27,15 @@
             background-color: white;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
             margin-top: 20px;
-            height: 700px;
-            width: 1350px;
-
+            min-height: 700px;
+            width: 100%;
+            max-width: 1350px;
         }
 
         .sidebar {
             border-right: 1px solid #eee;
             padding: 20px;
-            min-height: 640px;
+            height: 100%;
         }
 
         .sidebar-item {
@@ -109,6 +109,64 @@
             background-color: var(--background-color);
             color: var(--secondary-color);
         }
+
+        .movie-section {
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .movie-section h4 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .movie-section .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 20px;
+            border: none;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .movie-section .card-img-top {
+            height: 350px;
+            width: 295px;
+            object-fit: cover;
+        }
+
+        .movie-section .card-body {
+            padding: 15px;
+        }
+
+        .movie-section .card-title {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--primary-color);
+            margin-bottom: 0;
+        }
+
+        .movie-section .card .btn {
+            transition: transform 0.2s ease;
+            padding: 8px 15px;
+        }
+
+        .movie-section .card .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .movie-section .card .btn-success {
+            background-color: #2ecc71;
+            border-color: #27ae60;
+        }
+
+        .movie-section .card .btn-primary {
+            background-color: var(--secondary-color);
+            border-color: #2980b9;
+        }
     </style>
 </head>
 
@@ -151,6 +209,14 @@
                                     <img src="{{ movie.thumbnail }}" class="card-img-top" alt="{{ movie.movie_name }}">
                                     <div class="card-body">
                                         <h5 class="card-title">{{ movie.movie_name }}</h5>
+                                        <div class="mt-3 d-flex justify-content-between">
+                                            <button class="btn btn-success btn-sm" style="width: 45%;">
+                                                <i class="fas fa-shopping-cart"></i> Buy
+                                            </button>
+                                            <button class="btn btn-primary btn-sm" style="width: 45%;">
+                                                <i class="fas fa-tag"></i> Sell
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
