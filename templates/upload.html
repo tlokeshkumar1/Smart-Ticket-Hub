@@ -16,8 +16,11 @@
     </div>
 
     <div class="mt-4">
-        <h5>Extracted Data:</h5>
+        <h5>Extracted Text:</h5>
         <p id="extractedText" class="border p-3"></p>
+
+        <h5 class="mt-3">Structured Ticket Data:</h5>
+        <pre id="structuredData" class="border p-3 bg-light"></pre>
 
         <h5 class="mt-3">QR Code:</h5>
         <img id="qrCodeImage" class="border p-2" style="max-width: 200px; display: none;" />
@@ -42,6 +45,12 @@
             .then(data => {
                 document.getElementById("extractedText").innerText = data.extracted_text || "No text extracted.";
                 
+                if (data.structured_data) {
+                    document.getElementById("structuredData").innerText = JSON.stringify(data.structured_data, null, 4);
+                } else {
+                    document.getElementById("structuredData").innerText = "No structured data extracted.";
+                }
+
                 if (data.qr_code_image && data.qr_code_image !== "No QR code detected") {
                     document.getElementById("qrCodeImage").src = "data:image/png;base64," + data.qr_code_image;
                     document.getElementById("qrCodeImage").style.display = "block";

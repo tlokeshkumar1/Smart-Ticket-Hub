@@ -48,11 +48,11 @@ def upload_image():
     """API to extract text and QR code from an uploaded image."""
     if 'file' not in request.files:
         return jsonify({"error": "No file uploaded"}), 400
-
+    
     file = request.files['file']
-    result = extract_text(file)  # Now returns both text & QR code image
-
-    return jsonify(result)  # Return extracted text & QR code image
+    result = extract_text(file)  # Now returns text, QR code, and structured data
+    
+    return jsonify(result)
 
 @app.route('/signup')
 def signup_page():
