@@ -5,6 +5,7 @@ from flask_jwt_extended import JWTManager, create_access_token
 from flask_session import Session
 from dotenv import load_dotenv
 import os
+from ocr import extract_text
 
 load_dotenv()
 
@@ -28,6 +29,30 @@ def home():
         movies = list(mongo.db.movie_details.find({}, {'_id': 0, 'movie_name': 1, 'thumbnail': 1}))
         return render_template('home.html', full_name=session['full_name'], movies=movies)
     return render_template('index.html')
+
+@app.route('/movie_tickets')
+def movie_tickets():
+    """Show available movie tickets if logged in, else redirect to login."""
+    if 'full_name' in session:
+        movies = list(mongo.db.movie_details.find({}, {'_id': 0, 'movie_name': 1, 'thumbnail': 1, 'tickets_available': 1}))
+        return render_template('movie_tickets.html', full_name=session['full_name'], movies=movies)
+    return redirect(url_for('home'))
+
+@app.route('/upload_page')
+def upload_page():
+    """Render the upload page."""
+    return render_template('upload.html')
+
+@app.route('/upload', methods=['POST'])
+def upload_image():
+    """API to extract text and QR code from an uploaded image."""
+    if 'file' not in request.files:
+        return jsonify({"error": "No file uploaded"}), 400
+
+    file = request.files['file']
+    result = extract_text(file)  # Now returns both text & QR code image
+
+    return jsonify(result)  # Return extracted text & QR code image
 
 @app.route('/signup')
 def signup_page():

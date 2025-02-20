@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Smart Ticket Hub - Dashboard</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -26,16 +26,16 @@
             padding: 30px;
             background-color: white;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            margin-top: 20px;
-            min-height: 700px;
-            width: 100%;
-            max-width: 1350px;
+            margin: 10px auto;
+            min-height: 92vh;
+            width: 99%;
         }
 
         .sidebar {
-            border-right: 1px solid #eee;
+            border-left: 1px solid #eee;
             padding: 20px;
             height: 100%;
+            position: relative;
         }
 
         .sidebar-item {
@@ -65,17 +65,34 @@
             color: white;
             border-radius: 10px;
             margin-bottom: 20px;
+            width: 100%;
         }
 
         .profile-icon {
             position: absolute;
-            top: 100px;
-            right: 140px;
+            top: 20px;
+            right: 30px;
             cursor: pointer;
+            transition: transform 0.3s ease;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .profile-icon img {
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+            border: 2px solid var(--secondary-color);
+            border-radius: 50%;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
             transition: transform 0.3s ease;
         }
 
-        .profile-icon:hover {
+        .profile-icon:hover img {
             transform: scale(1.1);
         }
 
@@ -110,76 +127,135 @@
             color: var(--secondary-color);
         }
 
-        .movie-section {
-            padding: 20px;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        /* Add responsive breakpoints */
+        @media (max-width: 768px) {
+            .sidebar {
+                border-left: none;
+                border-top: 1px solid #eee;
+                margin-top: 20px;
+                padding-top: 20px;
+                order: 2; /* Keep sidebar below */
+            }
+
+            .col-md-9 {
+                order: 1; /* Keep welcome section on top */
+                margin-bottom: 20px;
+            }
+
+            .container-custom {
+                padding: 15px;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .row {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .welcome-section {
+                margin-top: 40px; /* Space for profile icon */
+            }
+
+            .profile-icon {
+                top: 15px;
+                right: 20px;
+            }
         }
 
-        .movie-section h4 {
-            color: var(--primary-color);
-            margin-bottom: 20px;
-            font-weight: 600;
+        @media (max-width: 576px) {
+            .sidebar-item {
+                padding: 10px;
+            }
+
+            .welcome-section {
+                padding: 15px;
+            }
+
+            h3 {
+                font-size: 1.5rem;
+            }
         }
 
-        .movie-section .card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            margin-bottom: 20px;
-            border: none;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        /* Add larger screen optimizations */
+        @media (min-width: 1400px) {
+            .container-custom {
+                width: 1320px;
+            }
         }
 
-        .movie-section .card-img-top {
-            height: 350px;
-            width: 295px;
-            object-fit: cover;
+        /* Add safe area insets for modern devices */
+        @supports (padding: max(0px)) {
+            .container-custom {
+                padding-left: max(20px, env(safe-area-inset-left));
+                padding-right: max(20px, env(safe-area-inset-right));
+            }
         }
 
-        .movie-section .card-body {
-            padding: 15px;
+        /* Fixed sizes for different screen sizes */
+        @media (min-width: 576px) {
+            .container-custom {
+                width: 99%;
+                max-width: 1400px;
+            }
         }
 
-        .movie-section .card-title {
-            font-size: 1.1rem;
-            font-weight: 500;
-            color: var(--primary-color);
-            margin-bottom: 0;
+        @media (min-width: 768px) {
+            .container-custom {
+                width: 99%;
+                max-width: 1800px;
+            }
         }
 
-        .movie-section .card .btn {
-            transition: transform 0.2s ease;
-            padding: 8px 15px;
+        @media (min-width: 992px) {
+            .container-custom {
+                width: 99%;
+                max-width: 2200px;
+            }
         }
 
-        .movie-section .card .btn:hover {
-            transform: translateY(-2px);
+        @media (min-width: 1200px) {
+            .container-custom {
+                width: 99%;
+                max-width: 2400px;
+            }
         }
 
-        .movie-section .card .btn-success {
-            background-color: #2ecc71;
-            border-color: #27ae60;
+        @media (min-width: 1400px) {
+            .container-custom {
+                width: 99%;
+                max-width: 2800px;
+            }
         }
-
-        .movie-section .card .btn-primary {
-            background-color: var(--secondary-color);
-            border-color: #2980b9;
-        }
+        
     </style>
 </head>
 
 <body>
-    <div class="container mt-4 position-relative">
+    <div class="container mt-2 position-relative">
         <div class="container-custom">
+            <div class="profile-icon" onclick="toggleProfileMenu()">
+                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iIzM0OThkYiIgZD0iTTEyIDJDNi40OCAyIDIgNi40OCAyIDEyczQuNDggMTAgMTAgMTAgMTAtNC40OCAxMC0xMFMxNy41MiAyIDEyIDJ6bTAgM2MyLjIzIDAgNCAxLjc3IDQgNCAwIDIuMjMtMS43NyA0LTQgNC0yLjIzIDAtNC0xLjc3LTQtNHptMCAxOWMtMy4zMiAwLTYuMjYtMS43LTgtNC4yOSAxLjgyLTMuMDEgNS4xMS01LjcxIDgtNS43MSAyLjg5IDAgNi4xOCAyLjcgOCA1LjcxLTEuNzQgMi41OS00LjY4IDQuMjktOCA0LjI5eiIvPjwvc3ZnPg==" 
+                     alt="Profile" 
+                     class="rounded-circle">
+            </div>
+
             <div class="row">
+                <!-- Welcome section -->
+                <div class="col-md-9">
+                    <div class="welcome-section">
+                        <h3>Welcome back, {{ full_name }}!</h3>
+                        <p>Manage your tickets and transactions with ease.</p>
+                    </div>
+                </div>
+                
+                <!-- Sidebar -->
                 <div class="col-md-3 sidebar">
                     <h5 class="mb-4">Dashboard</h5>
-                    <a href="#" class="sidebar-item">
+                    <a href="{{ url_for('movie_tickets') }}" class="sidebar-item">
                         <i class="fas fa-film"></i>
                         Movie Tickets
-                    </a>
+                    </a>                    
                     <a href="#" class="sidebar-item">
                         <i class="fas fa-subway"></i>
                         Metro Tickets
@@ -193,43 +269,8 @@
                         Transaction History
                     </a>
                 </div>
-                <div class="col-md-9">
-                    <div class="welcome-section">
-                        <h3>Welcome back, {{ full_name }}!</h3>
-                        <p>Manage your tickets and transactions with ease.</p>
-                    </div>
-
-                    <!-- Movie Section -->
-                    <div class="movie-section mt-4">
-                        <h4>Available Movies</h4>
-                        <div class="row">
-                            {% for movie in movies %}
-                            <div class="col-md-4">
-                                <div class="card">
-                                    <img src="{{ movie.thumbnail }}" class="card-img-top" alt="{{ movie.movie_name }}">
-                                    <div class="card-body">
-                                        <h5 class="card-title">{{ movie.movie_name }}</h5>
-                                        <div class="mt-3 d-flex justify-content-between">
-                                            <button class="btn btn-success btn-sm" style="width: 45%;">
-                                                <i class="fas fa-shopping-cart"></i> Buy
-                                            </button>
-                                            <button class="btn btn-primary btn-sm" style="width: 45%;">
-                                                <i class="fas fa-tag"></i> Sell
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
-    </div>
-
-    <div class="profile-icon" onclick="toggleProfileMenu()">
-        <img src="https://via.placeholder.com/40" alt="Profile" class="rounded-circle border border-2 border-primary">
     </div>
 
     <div class="profile-menu" id="profileMenu">
@@ -240,7 +281,6 @@
         <a href="{{ url_for('logout') }}" class="text-danger">
             <i class="fas fa-sign-out-alt"></i> Logout
         </a>
-    </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
