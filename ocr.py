@@ -11,7 +11,7 @@ from dotenv import load_dotenv  # Load environment variables
 
 app = Flask(__name__)
 
-# Load API key from .env file
+# Load API key from .env
 load_dotenv()
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
