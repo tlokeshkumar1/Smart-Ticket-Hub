@@ -1,0 +1,904 @@
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #3498db;
+    --accent-color: #e74c3c;
+    --background-color: #f8f9fa;
+}
+
+/* Base styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(120deg, #4ca5f9, #ffffff);
+    color: #333;
+    min-height: 100vh;
+}
+
+/* Full-screen container */
+.container-custom {
+    width: 100%;
+    min-height: 100vh;
+    margin: 0;
+    padding: 15px;
+    position: relative;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+}
+
+/* Make main container fill available space */
+.container-custom > .container {
+    flex: 1;
+    width: 100%;
+    max-width: 100%;
+    padding: 15px;
+    margin: 0;
+}
+
+/* Make row fill height */
+.container-custom .row {
+    min-height: calc(100vh - 60px); /* Account for padding and profile icon */
+}
+
+.row {
+    flex-direction: row-reverse;
+    display: flex;
+    min-height: calc(100vh - 100px);
+}
+
+.sidebar {
+    background: white;
+    border-radius: 1rem;
+    padding: 2rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    min-height: 92vh;
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid #eee;
+    padding: 20px;
+    position: relative;
+    height: 100%;
+    background-color: #f8f9fa;
+    border-left: 1px solid #e9ecef;
+}
+
+.sidebar h5 {
+    color: #333;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+
+.sidebar-item {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    color: #666;
+    text-decoration: none;
+    margin-bottom: 0.75rem;
+    transition: background-color 0.2s;
+    padding: 12px 15px;
+    margin: 5px 0;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    color: var(--primary-color);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.sidebar-item i {
+    margin-right: 0.75rem;
+    width: 1.25rem;
+    text-align: center;
+    color: #3498db;
+    margin-right: 10px;
+}
+
+.sidebar-item:hover {
+    background-color: #f8f9fa;
+    color: #3498db;
+    background-color: var(--secondary-color);
+    color: white;
+    transform: translateX(5px);
+}
+
+.sidebar-item.active {
+    background-color: #e1f5fe;
+    color: #0288d1;
+}
+
+.welcome-section {
+    background: white;
+    border-radius: 1rem;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    padding: 20px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+/* Active tickets section - fill remaining space */
+.active-tickets-section {
+    background: white;
+    border-radius: 1.25rem;
+    padding: 2rem;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    margin-top: 25px;
+    padding-bottom: 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    position: relative;
+    overflow: hidden;
+}
+
+.active-tickets-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--secondary-color), #9b59b6);
+    z-index: 1;
+}
+
+.welcome-section h3 {
+    color: #3498db;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+/* Profile icon and menu improvements */
+.profile-icon {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    cursor: pointer;
+    z-index: 1030;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border-radius: 50%;
+    background-color: white;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+}
+
+.profile-icon::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    background: linear-gradient(135deg, var(--secondary-color), #9b59b6) border-box;
+    -webkit-mask: 
+        linear-gradient(#fff 0 0) content-box, 
+        linear-gradient(#fff 0 0);
+    mask: 
+        linear-gradient(#fff 0 0) content-box, 
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+.profile-icon img {
+    width: 38px;
+    height: 38px;
+    object-fit: cover;
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+}
+
+.profile-icon:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(52, 152, 219, 0.25);
+}
+
+.profile-icon:hover::after {
+    opacity: 1;
+}
+
+.profile-icon:hover img {
+    transform: scale(1.05);
+}
+
+.profile-icon:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 8px rgba(52, 152, 219, 0.2);
+}
+
+.profile-menu {
+    position: absolute;
+    top: 60px;
+    right: 15px;
+    background: white;
+    border-radius: 12px;
+    padding: 8px 0;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    min-width: 220px;
+    z-index: 1000;
+    display: none;
+    transform-origin: top right;
+    animation: menuFadeIn 0.25s ease-out forwards;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+@keyframes menuFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.profile-menu::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    right: 24px;
+    width: 12px;
+    height: 12px;
+    background: white;
+    transform: rotate(45deg);
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    border-left: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.profile-menu a {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    text-decoration: none;
+    color: var(--primary-color);
+    transition: all 0.2s ease;
+    position: relative;
+    font-weight: 500;
+}
+
+.profile-menu a:active {
+    background-color: rgba(52, 152, 219, 0.1);
+}
+
+.profile-menu a i {
+    margin-right: 12px;
+    font-size: 1rem;
+    width: 20px;
+    text-align: center;
+    color: var(--secondary-color);
+    opacity: 0.85;
+    transition: all 0.2s ease;
+}
+
+.profile-menu a:hover {
+    background-color: rgba(52, 152, 219, 0.08);
+    color: var(--secondary-color);
+    padding-left: 25px;
+}
+
+.profile-menu a:hover i {
+    transform: scale(1.1);
+    opacity: 1;
+}
+
+.profile-menu a.text-danger {
+    color: #e74c3c;
+}
+
+.profile-menu a.text-danger i {
+    color: #e74c3c;
+}
+
+.profile-menu a.text-danger:hover {
+    background-color: rgba(231, 76, 60, 0.08);
+}
+
+.dropdown-divider {
+    height: 1px;
+    margin: 8px 0;
+    background-color: rgba(0, 0, 0, 0.06);
+}
+
+@media (max-width: 768px) {
+    .profile-icon {
+        top: 15px;
+        right: 15px;
+        width: 40px;
+        height: 40px;
+    }
+    
+    .profile-icon img {
+        width: 34px;
+        height: 34px;
+    }
+    
+    .profile-menu {
+        top: 65px;
+        right: 10px;
+        width: calc(100% - 20px);
+        max-width: 300px;
+    }
+}
+
+.profile-icon img {
+    width: 100%;
+    height: 100%;
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border: 2px solid var(--secondary-color);
+    border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease;
+}
+
+.profile-icon:hover img {
+    transform: scale(1.1);
+}
+
+.profile-menu {
+    position: absolute;
+    top: 60px;
+    right: 15px;
+    background: white;
+    border-radius: 12px;
+    padding: 8px 0;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    min-width: 220px;
+    z-index: 1000;
+    display: none;
+    transform-origin: top right;
+    animation: menuFadeIn 0.25s ease-out forwards;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.profile-menu a {
+    display: block;
+    padding: 0.5rem 1.5rem;
+    color: #333;
+    text-decoration: none;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    text-decoration: none;
+    color: var(--primary-color);
+    transition: all 0.3s ease;
+}
+
+.profile-menu a i {
+    margin-right: 10px;
+}
+
+.profile-menu a:hover {
+    background-color: #f8f9fa;
+    background-color: var(--background-color);
+    color: var(--secondary-color);
+}
+
+.dropdown-divider {
+    height: 0;
+    margin: 0.5rem 0;
+    overflow: hidden;
+    border-top: 1px solid #e9ecef;
+}
+
+/* Add responsive breakpoints */
+@media (max-width: 768px) {
+    .sidebar {
+        border-left: none;
+        border-top: 1px solid #eee;
+        margin-top: 20px;
+        padding-top: 20px;
+        order: 2; /* Keep sidebar below */
+    }
+
+    .col-md-9 {
+        order: 1; /* Keep welcome section on top */
+        margin-bottom: 20px;
+    }
+
+    .container-custom {
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .row {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .welcome-section {
+        margin-top: 40px; /* Space for profile icon */
+    }
+
+    .profile-icon {
+        top: 15px;
+        right: 20px;
+    }
+}
+
+@media (max-width: 576px) {
+    .sidebar-item {
+        padding: 10px;
+    }
+
+    .welcome-section {
+        padding: 15px;
+    }
+
+    h3 {
+        font-size: 1.5rem;
+    }
+}
+
+/* Add larger screen optimizations */
+@media (min-width: 1400px) {
+    .container-custom {
+        width: 1320px;
+    }
+}
+
+/* Add safe area insets for modern devices */
+@supports (padding: max(0px)) {
+    .container-custom {
+        padding-left: max(20px, env(safe-area-inset-left));
+        padding-right: max(20px, env(safe-area-inset-right));
+    }
+}
+
+/* Fixed sizes for different screen sizes */
+@media (min-width: 576px) {
+    .container-custom {
+        width: 99%;
+        max-width: 1400px;
+    }
+}
+
+@media (min-width: 768px) {
+    .container-custom {
+        width: 99%;
+        max-width: 1800px;
+    }
+}
+
+@media (min-width: 992px) {
+    .container-custom {
+        width: 99%;
+        max-width: 2200px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container-custom {
+        width: 99%;
+        max-width: 2400px;
+    }
+}
+
+@media (min-width: 1400px) {
+    .container-custom {
+        width: 99%;
+        max-width: 2800px;
+    }
+}
+
+/* Active Tickets Section */
+.active-tickets-section {
+    background: white;
+    border-radius: 1.25rem;
+    padding: 2rem;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    margin-top: 25px;
+    padding-bottom: 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    position: relative;
+    overflow: hidden;
+}
+
+.active-tickets-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--secondary-color), #9b59b6);
+    z-index: 1;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.75rem;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.section-header h4 {
+    margin: 0;
+    color: var(--primary-color);
+    font-weight: 600;
+    font-size: 1.25rem;
+    position: relative;
+    padding-left: 15px;
+}
+
+.section-header h4::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 20px;
+    background: var(--secondary-color);
+    border-radius: 3px;
+}
+
+.view-all {
+    color: #3498db;
+    text-decoration: none;
+    font-size: 0.9rem;
+    color: var(--secondary-color);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.view-all:hover {
+    text-decoration: underline;
+    opacity: 0.8;
+    transform: translateX(3px);
+}
+
+.view-all i {
+    font-size: 0.7rem;
+    margin-left: 3px;
+}
+
+/* Make tickets grid scrollable if needed */
+.tickets-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 22px;
+    flex-grow: 1;
+    overflow-y: auto; /* Allow scrolling if many tickets */
+    padding: 5px 2px;
+}
+
+.ticket-card {
+    border-radius: 0.75rem;
+    overflow: hidden;
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    border-top: 5px solid transparent;
+}
+
+.ticket-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.ticket-card::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, rgba(52, 152, 219, 0.8) 0%, rgba(155, 89, 182, 0.8) 100%);
+    z-index: -1;
+}
+
+.ticket-header {
+    padding: 1rem;
+    background: #f8f9fa;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.ticket-type {
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+}
+
+.ticket-type i {
+    margin-right: 0.5rem;
+    color: #3498db;
+    margin-right: 6px;
+    color: var(--secondary-color);
+}
+
+.ticket-status {
+    background: #e1f5fe;
+    color: #0288d1;
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 100px;
+    background: rgba(46, 204, 113, 0.15);
+    color: #2ecc71;
+}
+
+.ticket-card .ticket-status:contains("Expired") {
+    background: rgba(231, 76, 60, 0.15);
+    color: #e74c3c;
+}
+
+.ticket-card .ticket-status:contains("Upcoming") {
+    background: rgba(241, 196, 15, 0.15);
+    color: #f39c12;
+}
+
+.ticket-content {
+    padding: 1.5rem;
+    background: white;
+    padding: 15px;
+    flex-grow: 1;
+}
+
+.ticket-content h5 {
+    font-weight: 600;
+    margin-bottom: 1rem;
+    margin-top: 0;
+    margin-bottom: 12px;
+    color: var(--primary-color);
+    font-size: 1.1rem;
+}
+
+.ticket-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.ticket-info div {
+    display: flex;
+    align-items: center;
+}
+
+.ticket-info i {
+    width: 20px;
+    margin-right: 8px;
+    color: var(--secondary-color);
+    opacity: 0.8;
+}
+
+.ticket-info p {
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.usage-meter {
+    margin-top: 15px;
+}
+
+.usage-text {
+    display: flex;
+    justify-content: flex-end;
+    font-size: 0.8rem;
+    margin-top: 5px;
+    color: #7f8c8d;
+}
+
+.progress {
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.progress-bar {
+    background: linear-gradient(90deg, var(--secondary-color), #9b59b6);
+    border-radius: 10px;
+}
+
+.ticket-actions {
+    padding: 1rem;
+    background: #f8f9fa;
+    border-top: 1px solid #eee;
+    text-align: right;
+    padding: 12px 15px;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.ticket-actions .btn-primary {
+    background-color: var(--secondary-color);
+    border: none;
+    flex-grow: 1;
+    transition: all 0.2s ease;
+}
+
+.ticket-actions .btn-primary:hover {
+    background: linear-gradient(90deg, var(--secondary-color), #2980b9);
+    transform: translateY(-2px);
+}
+
+.ticket-actions .btn-outline-secondary {
+    color: var(--primary-color);
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+.ticket-actions .btn-outline-secondary:hover {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+/* Specific ticket types styling */
+.movie-ticket::before {
+    background: linear-gradient(90deg, #3498db 0%, #9b59b6 100%);
+}
+
+.metro-ticket::before {
+    background: linear-gradient(90deg, #2ecc71 0%, #1abc9c 100%);
+}
+
+.event-ticket::before {
+    background: linear-gradient(90deg, #f39c12 0%, #e74c3c 100%);
+}
+
+.no-tickets-message {
+    padding: 2rem;
+    text-align: center;
+    background: #f8f9fa;
+    border-radius: 0.75rem;
+    color: #666;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Responsive adaptations */
+@media (max-width: 768px) {
+    .tickets-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 15px;
+    }
+}
+
+@media (max-width: 576px) {
+    .tickets-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .ticket-info {
+        font-size: 0.85rem;
+    }
+}
+
+/* Layout changes - Flipping the main content and sidebar */
+.row {
+    flex-direction: row-reverse;
+}
+
+/* Main content column */
+.col-md-9 {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 15px;
+}
+
+/* Container height adjustments */
+.container {
+    min-height: 100vh;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .row {
+        flex-direction: column-reverse;
+        min-height: auto;
+    }
+    
+    .sidebar {
+        margin-top: 1.5rem;
+        margin-bottom: 0;
+        height: auto;
+        min-height: 300px;
+    }
+    
+    .col-md-9, .col-md-3 {
+        height: auto;
+    }
+    
+    .active-tickets-section {
+        min-height: 400px;
+    }
+    
+    .tickets-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .container {
+        min-height: auto;
+    }
+}
+
+/* Make navbar same height to keep alignment */
+.col-md-3.sidebar, .col-md-9, .welcome-section, .active-tickets-section {
+    margin-bottom: 20px;
+}
+
+/* Ensure content fills the viewport */
+html, body {
+    height: 100%;
+}
+
+/* Profile icon positioning */
+.profile-icon {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 1030;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .container-custom .row {
+        min-height: auto;
+    }
+    
+    .sidebar {
+        margin-top: 20px;
+        border-left: none;
+        border-top: 1px solid #e9ecef;
+    }
+}

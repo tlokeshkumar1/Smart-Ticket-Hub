@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block title %}Smart Ticket Hub - Dashboard{% endblock %}
+
+{% block additional_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container-custom">
+    <div class="profile-icon" onclick="toggleProfileMenu()">
+        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iIzM0OThkYiIgZD0iTTEyIDJDNi40OCAyIDIgNi40OCAyIDEyczQuNDggMTAgMTAgMTAgMTAtNC40OCAxMC0xMFMxNy41MiAyIDEyIDJ6bTAgM2MyLjIzIDAgNCAxLjc3IDQgNCAwIDIuMjMtMS43NyA0LTQgNC0yLjIzIDAtNC0xLjc3LTQtNHptMCAxOWMtMy4zMiAwLTYuMjYtMS43LTgtNC4yOSAxLjgyLTMuMDEgNS4xMS01LjcxIDgtNS43MSAyLjg5IDAgNi4xOCAyLjcgOCA1LjcxLTEuNzQgMi41OS00LjY4IDQuMjktOCA0LjI5eiIvPjwvc3ZnPg==" 
+             alt="Profile" 
+             class="rounded-circle">
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <!-- Welcome section and Active Tickets in one column -->
+            <div class="col-md-9">
+                <div class="welcome-section">
+                    <h3>Welcome back, {{ full_name }}!</h3>
+                    <p>Manage your tickets and transactions with ease.</p>
+                </div>
+                
+                <!-- Active Tickets Section - will expand to fill available space -->
+                <div class="active-tickets-section">
+                    <div class="section-header">
+                        <h4>Your Active Tickets</h4>
+                        <a href="#" class="view-all">View All <i class="fas fa-chevron-right"></i></a>
+                    </div>
+                    
+                    <div class="tickets-grid">
+                        {% if tickets %}
+                            {% for ticket in tickets %}
+                                <div class="ticket-card movie-ticket" data-ticket-type="movie">
+                                    <div class="ticket-header">
+                                        <div class="ticket-type"><i class="fas fa-film"></i> Movie Ticket</div>
+                                        <div class="ticket-status">Active</div>
+                                    </div>
+                                    <div class="ticket-content">
+                                        <h5>{{ ticket.ticket_details.movie_name }}</h5>
+                                        <div class="ticket-info">
+                                            <p><strong>Showtime:</strong> {{ ticket.ticket_details.date_and_time }}</p>
+                                            <p><strong>Theater:</strong> {{ ticket.ticket_details.theater_name }}</p>
+                                            <p><strong>Seats:</strong> {{ ticket.ticket_details.ticket_numbers }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="ticket-actions">
+                                        <a href="{{ url_for('view_ticket', booking_id=ticket.ticket_details.booking_id) }}" 
+                                           class="btn btn-sm btn-primary">
+                                            <i class="fas fa-qrcode"></i> View Ticket
+                                        </a>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="no-tickets-message">
+                                <p>You don't have any active tickets right now.</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sidebar - full height -->
+            <div class="col-md-3 sidebar">
+                <h5 class="mb-4">Dashboard</h5>
+                <a href="{{ url_for('movie_tickets') }}" class="sidebar-item">
+                    <i class="fas fa-film"></i>
+                    Movie Tickets
+                </a>                    
+                <a href="#" class="sidebar-item">
+                    <i class="fas fa-subway"></i>
+                    Metro Tickets
+                </a>
+                <a href="{{ url_for('balance') }}" class="sidebar-item">
+                    <i class="fas fa-wallet"></i>
+                    Balance
+                </a>
+                <a href="{{ url_for('balance_history') }}" class="sidebar-item">
+                    <i class="fas fa-history"></i>
+                    Transaction History
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="profile-menu" id="profileMenu">
+    <a href="#"><i class="fas fa-user"></i> My Profile</a>
+    <a href="#"><i class="fas fa-cog"></i> Settings</a>
+    <a href="#"><i class="fas fa-question-circle"></i> Help</a>
+    <div class="dropdown-divider"></div>
+    <a href="{{ url_for('logout') }}" class="text-danger">
+        <i class="fas fa-sign-out-alt"></i> Logout
+    </a>
+</div>
+{% endblock %}
+
+{% block additional_js %}
+<script>
+    function toggleProfileMenu() {
+        const menu = document.getElementById("profileMenu");
+        menu.style.display = menu.style.display === "block" ? "none" : "block";
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function (event) {
+            const profileIcon = document.querySelector('.profile-icon');
+            const profileMenu = document.getElementById('profileMenu');
+
+            if (!profileIcon.contains(event.target) && !profileMenu.contains(event.target)) {
+                profileMenu.style.display = 'none';
+            }
+        });
+    }
+</script>
+{% endblock %}

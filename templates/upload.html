@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Upload Ticket</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/upload.css') }}">
+</head>
+<body>
+  <div class="container mt-5 mb-5 main-container">
+    <h3 class="text-center page-title">Upload Ticket</h3>
+    <p class="text-center text-muted">
+      Please upload a screenshot or image file of '<strong>{{ movie_name }}</strong>'
+    </p>
+
+    <div class="card p-4 mt-4 upload-card">
+      <input type="file" id="ticketImage" accept="image/*" class="form-control" />
+      <button class="btn btn-success mt-3 w-100" onclick="uploadTicket()">Submit</button>
+    </div>
+
+    <div class="mt-4 text-center">
+      <button class="btn btn-outline-primary" onclick="toggleView('public')">Public View</button>
+      <button class="btn btn-outline-secondary" onclick="toggleView('developer')">Developer View</button>
+    </div>
+
+    <div class="result-section mt-4">
+      <div id="publicView">
+        <h5 class="section-heading">Structured Ticket Data:</h5>
+        <div id="structuredDataFormatted" class="data-container p-3 bg-light"></div>
+      </div>
+
+      <div id="developerView" style="display: none;">
+        <h5 class="section-heading">Extracted Text:</h5>
+        <p id="devExtractedText" class="data-container p-3"></p>
+
+        <h5 class="section-heading">Structured Ticket Data (JSON):</h5>
+        <pre id="structuredData" class="data-container p-3 bg-light"></pre>
+
+        <h5 class="section-heading">QR Code:</h5>
+        <div class="text-center">
+          <img id="qrCodeImage" class="p-2" style="max-width: 200px; display: none;" />
+        </div>
+      </div>
+
+      <div id="actionButtons" class="d-flex justify-content-center gap-3 mt-3"></div>
+    </div>
+  </div>
+
+  <script>
+    function uploadTicket() {
+      const fileInput = document.getElementById("ticketImage");
+      if (fileInput.files.length === 0) {
+        alert("Please select an image.");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("file", fileInput.files[0]);
+
+      fetch("/upload", {
+        method: "POST",
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log("Received data:", data);
+
+        // Display extracted text
+        
+        document.getElementById("devExtractedText").innerText = data.extracted_text || "No text extracted.";
+
+        // Display structured data in formatted way
+        if (data.structured_data) {
+          document.getElementById("structuredData").innerText = JSON.stringify(data.structured_data, null, 4);
+
+          let formattedData = "";
+          for (let key in data.structured_data) {
+            formattedData += `<strong>${key}:</strong> ${data.structured_data[key]}<br>`;
+          }
+          document.getElementById("structuredDataFormatted").innerHTML = formattedData;
+        } else {
+          document.getElementById("structuredData").innerText = "No structured data extracted.";
+          document.getElementById("structuredDataFormatted").innerText = "No structured data extracted.";
+        }
+
+        // Display QR code
+        if (data.qr_code_image && data.qr_code_image !== "No QR code detected") {
+          document.getElementById("qrCodeImage").src = "data:image/png;base64," + data.qr_code_image;
+          document.getElementById("qrCodeImage").style.display = "block";
+        } else {
+          document.getElementById("qrCodeImage").style.display = "none";
+        }
+
+        // Create action buttons
+        const buttonContainer = document.getElementById("actionButtons");
+        buttonContainer.innerHTML = "";
+
+        const sellButton = document.createElement("button");
+        sellButton.className = "btn btn-primary";
+        sellButton.innerText = "Sell Ticket";
+        sellButton.onclick = () => {
+          const ticketData = {
+            ...data.structured_data,
+            qr_code_image: data.qr_code_image
+          };
+          sellTicket(ticketData);
+        };
+
+        const uploadAgainButton = document.createElement("button");
+        uploadAgainButton.className = "btn btn-secondary";
+        uploadAgainButton.innerText = "Upload Again";
+        uploadAgainButton.onclick = () => location.reload();
+
+        buttonContainer.append(sellButton, uploadAgainButton);
+      })
+      .catch(error => {
+        console.error("Error:", error);
+        alert("An error occurred during upload");
+      });
+    }
+
+    function sellTicket(ticketData) {
+      if (!ticketData || !ticketData.movie_name) {
+        alert("Invalid ticket data!");
+        return;
+      }
+
+      fetch("/sell_ticket", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(ticketData)
+      })
+      .then(response => response.json())
+      .then(result => {
+        console.log("Sell ticket result:", result);
+        if (result.error) {
+          alert(`Error: ${result.error}`);
+        } else if (result.message) {
+          alert(`Success: ${result.message}`);
+          if (result.redirect) {
+            window.location.href = result.redirect;
+          }
+        }
+      })
+      .catch(error => {
+        console.error("Error:", error);
+        alert("Network error - please try again");
+      });
+    }
+
+    function toggleView(view) {
+      if (view === "public") {
+        document.getElementById("publicView").style.display = "block";
+        document.getElementById("developerView").style.display = "none";
+      } else {
+        document.getElementById("publicView").style.display = "none";
+        document.getElementById("developerView").style.display = "block";
+      }
+    }
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
