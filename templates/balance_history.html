@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction History</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/balance_history.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="top-nav">
+            <a href="{{ url_for('home') }}" class="back-button">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back to Dashboard</span>
+            </a>
+        </nav>
+        
+        <div class="content-wrapper">
+            <header class="page-header">
+                <h1>Transaction History</h1>
+                <p class="subtitle">Track your balance changes and ticket purchases</p>
+            </header>
+
+            <div class="table-container">
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Amount</th>
+                                <th>Details</th>
+                                <th>Date & Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for transaction in transactions|sort(attribute='timestamp', reverse=True) %}
+                            <tr class="{{ transaction.type }}">
+                                <td>
+                                    <span class="transaction-type">
+                                        <i class="fas {% if transaction.type == 'credit' %}fa-arrow-up{% else %}fa-arrow-down{% endif %}"></i>
+                                        {{ transaction.type }}
+                                    </span>
+                                </td>
+                                <td class="amount">₹{{ transaction.amount }}</td>
+                                <td class="details">
+                                    {% if transaction.type == "debit" %}
+                                        {{ transaction.description }}
+                                    {% else %}
+                                        {% if transaction.description %}
+                                            {{ transaction.description }}
+                                        {% else %}
+                                            <i class="fas fa-wallet"></i> Added to balance
+                                        {% endif %}
+                                    {% endif %}
+                                </td>
+                                <td class="timestamp">
+                                    <i class="far fa-clock"></i>
+                                    {{ transaction.timestamp }}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

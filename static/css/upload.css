@@ -1,0 +1,71 @@
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .main-container {
+    max-width: 800px;
+    margin: 0 auto;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+    background-color: #fff;
+    padding: 2rem;
+  }
+  
+  .page-title {
+    color: #2c3e50;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+  
+  .upload-card {
+    border-radius: 8px;
+    border: 2px dashed #dee2e6;
+    background-color: #f8f9fa;
+    transition: all 0.3s ease;
+  }
+  
+  .upload-card:hover {
+    border-color: #6c757d;
+  }
+  
+  .btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+    font-weight: 500;
+  }
+  
+  .result-section {
+    margin-top: 2rem;
+  }
+  
+  .section-heading {
+    font-size: 1.1rem;
+    color: #495057;
+    font-weight: 600;
+    margin-top: 1.5rem;
+  }
+  
+  .data-container {
+    border-radius: 6px;
+    border: 1px solid #dee2e6;
+    min-height: 70px;
+  }
+  
+  #qrCodeImage {
+    border-radius: 6px;
+    border: 1px solid #dee2e6;
+    background-color: #fff;
+  }
+  
+  #actionButtons {
+    margin-top: 1.5rem;
+  }
+  
+  #actionButtons .btn {
+    min-width: 140px;
+  }
+  
+  .highlight {
+    background-color: #f0f8ff;
+  }

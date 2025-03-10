@@ -1,0 +1,188 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(120deg, #2980b9, #8e44ad);
+}
+
+.signup-container {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+.signup-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.signup-header h2 {
+    color: #2c3e50;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.form-group {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+/* Update the lock icon (password icon) positioning */
+.form-group i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #7f8c8d;
+    z-index: 5; /* Lower z-index than the eye icon */
+}
+
+/* Adjust the password input padding */
+.form-group input {
+    width: 100%;
+    padding: 12px 40px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus {
+    border-color: #3498db;
+}
+
+.signup-button {
+    width: 100%;
+    padding: 12px;
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: background 0.3s ease;
+}
+
+.signup-button:hover {
+    background: #2980b9;
+}
+
+.login-link {
+    text-align: center;
+    margin-top: 1.5rem;
+    color: #7f8c8d;
+}
+
+.login-link a {
+    color: #3498db;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}
+
+/* Update the eye icon positioning */
+.fa-eye, .fa-eye-slash {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #999;
+    z-index: 6; /* Higher z-index than the lock icon */
+}
+
+.fa-eye:hover, .fa-eye-slash:hover {
+    color: #333;
+}
+
+/* Adjust the password input padding */
+.form-group input[type="password"],
+.form-group input[type="text"] {
+    padding-left: 40px;  /* Space for the lock icon */
+    padding-right: 45px; /* Make room for eye icon */
+}
+
+/* Mobile devices (portrait) */
+@media screen and (max-width: 480px) {
+    .signup-container {
+        width: 90%;
+        padding: 1.5rem;
+        margin: 1rem;
+    }
+    
+    .signup-header h2 {
+        font-size: 1.75rem;
+    }
+    
+    .form-group input {
+        padding: 10px 35px;
+        font-size: 0.9rem;
+    }
+    
+    .signup-button {
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+}
+
+/* Tablets and small laptops */
+@media screen and (min-width: 481px) and (max-width: 1024px) {
+    .signup-container {
+        width: 80%;
+        max-width: 500px;
+    }
+    
+    .signup-header h2 {
+        font-size: 2rem;
+    }
+}
+
+/* Large screens and desktops */
+@media screen and (min-width: 1025px) {
+    .signup-container {
+        max-width: 450px;
+    }
+    
+    .form-group input:hover {
+        border-color: #2980b9;
+    }
+}
+
+/* High-resolution displays */
+@media screen and (min-width: 1400px) {
+    .signup-container {
+        max-width: 500px;
+    }
+    
+    .signup-header h2 {
+        font-size: 2.2rem;
+    }
+}
+
+/* For devices with hover capability */
+@media (hover: hover) {
+    .signup-button:hover {
+        background: #2980b9;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    .login-link a:hover {
+        color: #2980b9;
+    }
+}

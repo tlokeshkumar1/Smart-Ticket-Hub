@@ -1,0 +1,126 @@
+:root {
+  --primary-color: #3498db;
+  --primary-dark: #2980b9;
+  --secondary-color: #2ecc71;
+  --secondary-dark: #27ae60;
+  --text-color: #2c3e50;
+  --light-gray: #ecf0f1;
+  --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+  --transition: all 0.3s ease;
+}
+
+body {
+  font-family: 'Roboto', 'Segoe UI', sans-serif;
+  color: var(--text-color);
+  background-color: #f9f9f9;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1200px;
+  padding: 0 15px;
+}
+
+/* Header and Navigation */
+.btn-outline-secondary {
+  border-color: var(--text-color);
+  color: var(--text-color);
+  padding: 0.5rem 1rem;
+  transition: var(--transition);
+  font-weight: 500;
+}
+
+/* Movie Section */
+.movie-section {
+  padding: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.movie-section h4 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--primary-color);
+}
+
+/* Ticket Cards */
+.card {
+  border: none;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: var(--transition);
+  box-shadow: var(--card-shadow);
+  height: 100%;
+}
+
+.card-body {
+  padding: 1.5rem;
+}
+
+.card-title {
+  font-weight: 600;
+  color: var(--primary-dark);
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.card-text {
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+
+/* Ticket Details */
+.card-text strong {
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+/* Purchase Button */
+.btn-success {
+  background-color: var(--secondary-color);
+  border: none;
+  padding: 0.6rem 1.2rem;
+  font-weight: 500;
+  transition: var(--transition);
+  margin-top: 1rem;
+  width: 100%;
+}
+
+.btn-success:active {
+  transform: translateY(0);
+}
+
+/* No Tickets Message */
+.no-tickets {
+  font-size: 1.2rem;
+  color: #7f8c8d;
+  text-align: center;
+  padding: 2rem;
+  background-color: var(--light-gray);
+  border-radius: 8px;
+  margin-top: 1rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .card {
+    margin-bottom: 1.5rem;
+  }
+  
+  .movie-section h4 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .container {
+    padding: 0 10px;
+  }
+  
+  .movie-section {
+    padding: 1rem;
+  }
+}

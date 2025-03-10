@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block title %}{{ movie.movie_name }} - Smart Ticket Hub{% endblock %}
+
+{% block additional_css %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/movie-thumbnail_to_buy_ticket.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="movie-container">
+    <nav aria-label="breadcrumb" class="movie-header">
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item">
+                <a href="{{ url_for('movie_tickets') }}" class="back-button">
+                    <i class="fas fa-arrow-left me-2"></i>All Movies
+                </a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">{{ movie.movie_name }}</li>
+        </ol>
+    </nav>
+
+    <div class="movie-content">
+        <div class="row g-0">
+            <div class="col-lg-8">
+                <div class="movie-trailer-container">
+                    <iframe class="movie-trailer" src="{{ movie.trailer }}?autoplay=0&controls=1&modestbranding=1&rel=0"
+                        title="{{ movie.movie_name }} Trailer" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="movie-details">
+                    <h1 class="movie-title">{{ movie.movie_name }}</h1>
+                    
+                    <div class="movie-info-card">
+                        <div class="movie-info">
+                            <span class="info-label">
+                                <i class="fas fa-language"></i>
+                                <span>Language</span>
+                            </span>
+                            <span class="info-content">{{ movie.language }}</span>
+                        </div>
+
+                        <div class="movie-info">
+                            <span class="info-label">
+                                <i class="fas fa-users"></i>
+                                <span>Cast</span>
+                            </span>
+                            <span class="info-content">
+                                {% if movie.cast is string %}
+                                {{ movie.cast }}
+                                {% else %}
+                                {{ movie.cast|join(', ') }}
+                                {% endif %}
+                            </span>
+                        </div>
+
+                        <div class="movie-info">
+                            <span class="info-label">
+                                <i class="fas fa-ticket-alt"></i>
+                                <span>Status</span>
+                            </span>
+                            <span class="info-content">
+                                {% if movie.available_tickets > 0 %}
+                                <div class="tickets-available">
+                                    <span class="ticket-count">{{ movie.available_tickets }}</span>
+                                    <span class="ticket-text">Tickets Available</span>
+                                </div>
+                                {% else %}
+                                <div class="tickets-sold-out">
+                                    <i class="fas fa-times-circle"></i>
+                                    <span>Sold Out</span>
+                                </div>
+                                {% endif %}
+                            </span>
+                        </div>
+                    </div>
+
+                    {% if movie.available_tickets > 0 %}
+                    <a href="/buy_page?movie={{ movie.movie_name }}" class="btn btn-primary buy-button w-100">
+                        <i class="fas fa-shopping-cart me-2"></i>
+                        Book Tickets Now
+                    </a>
+                    {% else %}
+                    <button class="btn btn-secondary buy-button w-100" disabled>
+                        <i class="fas fa-times-circle me-2"></i>
+                        Currently Unavailable
+                    </button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block additional_js %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const trailerSrc = "{{ movie.trailer }}";
+        let embedUrl = trailerSrc;
+
+        if (trailerSrc.includes('youtube.com/watch?v=')) {
+            const videoId = trailerSrc.split('v=')[1].split('&')[0];
+            embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=0&controls=1&modestbranding=1&rel=0`;
+        } else if (trailerSrc.includes('youtu.be/')) {
+            const videoId = trailerSrc.split('youtu.be/')[1].split('?')[0];
+            embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=0&controls=1&modestbranding=1&rel=0`;
+        }
+
+        const trailer = document.querySelector('.movie-trailer');
+        trailer.src = embedUrl;
+        
+        // Add loading state
+        trailer.addEventListener('load', function() {
+            this.classList.add('loaded');
+        });
+    });
+</script>
+{% endblock %}

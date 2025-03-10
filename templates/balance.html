@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Balance - Smart Ticket Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/balance.css') }}">
+</head>
+<body>
+    <div class="container">
+        <nav class="top-nav">
+            <a href="{{ url_for('home') }}" class="back-link">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back to Home</span>
+            </a>
+            <div class="user-info">
+                <i class="fas fa-user-circle"></i>
+                <span>{{ session['username'] }}</span>
+            </div>
+        </nav>
+        
+        <main class="content">
+            <div class="balance-card">
+                <div class="balance-info">
+                    <div class="balance-title">Available Balance</div>
+                    <div class="balance-amount">₹{{ "{:,.2f}".format(balance) }}</div>
+                </div>
+                <div class="balance-icon">
+                    <i class="fas fa-wallet"></i>
+                </div>
+            </div>
+
+            <section class="add-money-section">
+                <h2>Add Money to Wallet</h2>
+                <form method="POST" class="add-money-form">
+                    <div class="input-group">
+                        <i class="fas fa-rupee-sign"></i>
+                        <input type="number" name="amount" placeholder="Enter amount" required min="1" step="any">
+                    </div>
+                    <div class="quick-amounts">
+                        <button type="button" class="quick-amount" data-amount="100">₹100</button>
+                        <button type="button" class="quick-amount" data-amount="500">₹500</button>
+                        <button type="button" class="quick-amount" data-amount="1000">₹1000</button>
+                    </div>
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-plus-circle"></i>
+                        Add Money
+                    </button>
+                </form>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        document.querySelectorAll('.quick-amount').forEach(button => {
+            button.addEventListener('click', () => {
+                document.querySelector('input[name="amount"]').value = button.dataset.amount;
+            });
+        });
+    </script>
+</body>
+</html>

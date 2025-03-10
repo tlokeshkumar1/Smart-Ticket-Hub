@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% block title %}Movie Tickets{% endblock %}
+
+{% block additional_css %}
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/movie_tickets.css') }}">
+{% endblock %}
+
+{% block content %}
+<!-- Navigation Bar -->
+<div class="navigation-bar">
+    <div class="container">
+        <a href="{{ url_for('home') }}" class="back-button">
+            <i class="fas fa-arrow-left"></i> Back to Home
+        </a>
+    </div>
+</div>
+
+<!-- Hero Section with Search -->
+<div class="hero-section">
+    <div class="container hero-container">
+        <div class="hero-content">
+            <h1>Movie Tickets</h1>
+            <p>Browse and book tickets for the latest movies</p>
+        </div>
+        <div class="search-wrapper">
+            <div class="search-container">
+                <div class="search-input-wrapper">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" class="search-input" id="movieSearch" placeholder="Search for movies...">
+                </div>
+                <button class="search-button" onclick="filterMovies()">
+                    Search
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="main-content container">
+    <!-- Movie Section -->
+    <div class="movie-section">
+        <div class="section-header">
+            <h2>Available Movies</h2>
+            <div class="movie-count">
+                <span id="movieCount">{{ movies|length }}</span> movies found
+            </div>
+        </div>
+
+        {% if movies %}
+        <div class="movie-grid" id="movieContainer">
+            {% for movie in movies %}
+            <div class="movie-card" data-movie-name="{{ movie.movie_name.lower() }}">
+                <div class="movie-thumbnail">
+                    <img src="{{ movie.thumbnail }}" alt="{{ movie.movie_name }}">
+                </div>
+                <div class="movie-info">
+                    <h3 class="movie-title">{{ movie.movie_name }}</h3>
+                    <div class="ticket-status {% if movie.available_tickets == 0 %}sold-out{% endif %}">
+                        {% if movie.available_tickets > 0 %}
+                        <i class="fas fa-ticket-alt"></i>
+                        <span>{{ movie.available_tickets }} tickets available</span>
+                        {% else %}
+                        <i class="fas fa-times-circle"></i>
+                        <span>Sold Out</span>
+                        {% endif %}
+                    </div>
+                    <div class="movie-actions">
+                        <button class="action-button buy-button" {% if movie.available_tickets==0 %}disabled{% endif %} onclick="redirectToMovieThumbnail('{{ movie.movie_name }}')">
+                            <i class="fas fa-shopping-cart"></i> Buy Ticket
+                        </button>
+                        <button class="action-button sell-button" onclick="redirectToUpload('{{ movie.movie_name }}')">
+                            <i class="fas fa-tag"></i> Sell Ticket
+                        </button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div id="noResults" class="no-results hidden">
+            <i class="fas fa-search"></i>
+            <p>No movies found matching your search.</p>
+            <span>Try different keywords or browse our available movies.</span>
+        </div>
+        {% else %}
+        <div class="no-movies">
+            <i class="fas fa-film"></i>
+            <p>No movies available at the moment.</p>
+            <span>Please check back later for new releases.</span>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block additional_js %}
+<script>
+    function redirectToMovieThumbnail(movieName) {
+        window.location.href = "/movie_thumbnail?movie=" + encodeURIComponent(movieName);
+    }
+
+    function redirectToUpload(movieName) {
+        window.location.href = "/upload_page?movie=" + encodeURIComponent(movieName);
+    }
+
+    const searchInput = document.getElementById('movieSearch');
+    searchInput.addEventListener('input', filterMovies);
+
+    function filterMovies() {
+        const searchInput = document.getElementById('movieSearch');
+        const filter = searchInput.value.toLowerCase().trim();
+        const movieCards = document.querySelectorAll('.movie-card');
+        const noResults = document.getElementById('noResults');
+        const movieCount = document.getElementById('movieCount');
+        let visibleCount = 0;
+
+        movieCards.forEach(card => {
+            const movieName = card.getAttribute('data-movie-name');
+            if (movieName.includes(filter)) {
+                card.style.display = 'block';
+                visibleCount++;
+            } else {
+                card.style.display = 'none';
+            }
+        });
+
+        movieCount.textContent = visibleCount;
+        noResults.classList.toggle('hidden', visibleCount > 0);
+    }
+</script>
+{% endblock %}
