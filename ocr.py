@@ -48,9 +48,9 @@ def extract_text(file):
     structured_data = extract_ticket_details(extracted_text)
 
     return {
-        "extracted_text": extracted_text.strip(),
         "qr_code_text": qr_decoded_text if qr_decoded_text else "No QR code detected",
         "qr_code_image": qr_code_base64 if qr_code_base64 else "No QR code detected",
+        "extracted_text": extracted_text.strip(),
         "structured_data": structured_data if structured_data else "Could not extract structured data"
     }
 
