@@ -8,8 +8,18 @@ import os
 from flask import Flask, request, jsonify, session
 
 
-# Set the Tesseract OCR path
-pytesseract.pytesseract.tesseract_cmd = r"C:\\Program Files\\Tesseract-OCR\\tesseract.exe"
+# Detect if running inside Docker
+RUNNING_IN_DOCKER = os.getenv("RUNNING_IN_DOCKER", "false").lower() == "true"
+
+if RUNNING_IN_DOCKER:
+    # Set Tesseract path for Docker (Linux)
+    pytesseract.pytesseract.tesseract_cmd = "/usr/bin/tesseract"
+else:
+    # Set Tesseract path for Local (Windows)
+    pytesseract.pytesseract.tesseract_cmd = os.getenv("TESSERACT_CMD", r"C:\Program Files\Tesseract-OCR\tesseract.exe")
+
+# Debug: Print Tesseract path
+print("Tesseract Path:", pytesseract.pytesseract.tesseract_cmd)
 
 def preprocess_image(image):
     """Convert image to grayscale and apply thresholding for better OCR accuracy."""
