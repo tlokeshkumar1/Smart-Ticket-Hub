@@ -8,17 +8,16 @@ import os
 from flask import Flask, request, jsonify, session
 
 
-# Detect if running inside Docker
+# Detect Docker
 RUNNING_IN_DOCKER = os.getenv("RUNNING_IN_DOCKER", "false").lower() == "true"
 
 if RUNNING_IN_DOCKER:
-    # Set Tesseract path for Docker (Linux)
-    pytesseract.pytesseract.tesseract_cmd = "/usr/bin/tesseract"
+    pytesseract.pytesseract.tesseract_cmd = os.getenv("TESSERACT_PATH", "/usr/bin/tesseract")
 else:
-    # Set Tesseract path for Local (Windows)
     pytesseract.pytesseract.tesseract_cmd = os.getenv("TESSERACT_CMD", r"C:\Program Files\Tesseract-OCR\tesseract.exe")
 
 # Debug: Print Tesseract path
+print("RUNNING_IN_DOCKER:", RUNNING_IN_DOCKER)
 print("Tesseract Path:", pytesseract.pytesseract.tesseract_cmd)
 
 def preprocess_image(image):
